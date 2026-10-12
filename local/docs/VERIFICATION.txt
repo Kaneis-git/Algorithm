@@ -1,0 +1,150 @@
+KnowledgeHub AI 0.6.0
+2026-10-11
+Linux / Node.js v24.19.0 / npm 11.9.0
+Command: npm run check
+External APIs: local fixtures only
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knowledgehub-ai@0.6.0 check
+> npm run lint && npm run typecheck && npm run build && npm test
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knowledgehub-ai@0.6.0 lint
+> eslint .
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knowledgehub-ai@0.6.0 typecheck
+> next typegen && tsc --noEmit
+
+Generating route types...
+✓ Types generated successfully
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knowledgehub-ai@0.6.0 prebuild
+> node scripts/clean-standalone.mjs
+
+
+> knowledgehub-ai@0.6.0 build
+> next build
+
+▲ Next.js 16.4.0 (Turbopack)
+✓ Running next.config.ts took 20ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 423ms
+  Running TypeScript ...
+  Finished TypeScript in 1226ms ...
+  Collecting page data using 8 workers ...
+  Generating static pages using 8 workers (0/8) ...
+  Generating static pages using 8 workers (2/8) 
+  Generating static pages using 8 workers (4/8) 
+  Generating static pages using 8 workers (6/8) 
+✓ Generating static pages using 8 workers (8/8) in 243ms
+Turbopack build encountered 1 warning:
+./lib/db/store.ts:74:54
+Warning: Dynamic filesystem access causes tracing of the whole project
+  [90m72 |[0m ... globalThis & { knowledgehubStore?: [33mStore[0m };
+  [90m73 |[0m ...
+[33m[1m>[0m [90m74 |[0m ...|= [36mnew[0m [33mStore[0m(resolve(process.env.[33mDATABASE_PATH[0m || [32m"data/knowledgehub.db"[0m));
+  [90m   |[0m                 [33m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m75 |[0m ...
+  [90m76 |[0m ...
+
+Static analysis determined that this filesystem access causes the whole project to be traced and included in the output.
+This is usually unintentional and leads to all source files (including the public folder) to be deployed as part of the server code.
+This can slow down deployments or lead to failures when size limits are exceeded.
+To resolve this, you can
+- make sure the path is statically scoped to some subfolder, for example path.join(process.cwd(), 'data', bar), or
+- only use them in development, or
+- opt out by adding an ignore comment to the highlighted call: path.resolve(/*turbopackIgnore: true*/ ...), or
+- remove them.
+
+Import trace:
+  App Route:
+    ./lib/db/store.ts
+    ./app/api/history/route.ts
+
+
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/favorites
+├ ƒ /api/health
+├ ƒ /api/history
+├ ƒ /api/search
+├ ○ /favorites
+├ ƒ /search
+└ ƒ /settings
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+> knowledgehub-ai@0.6.0 postbuild
+> node scripts/prepare-standalone.mjs
+
+Standalone server and local assets are ready.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knowledgehub-ai@0.6.0 test
+> npm run test:unit && node --test tests/http.test.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> knowledgehub-ai@0.6.0 test:unit
+> node --conditions=react-server --import tsx --test tests/*.test.ts
+
+✔ unconfigured AI falls back to explicitly labelled rule expansion (1.195648ms)
+✔ AI cannot cite unknown source IDs or invent links (1.870044ms)
+✔ ranking supports Chinese and keeps unrelated popular results below relevant content (1.82642ms)
+✔ expanded queries really reach providers, deduplicate and retain original on partial failure (1.466248ms)
+✔ provider configuration changes invalidate cached search keys without exposing credentials (0.278081ms)
+✔ provider HTTP client rejects malformed, oversized, slow and redirected responses (164.516941ms)
+✔ unsafe links are removed and trackers normalized (1.12289ms)
+✔ search query validation normalizes Unicode and rejects empty/long input (1.096521ms)
+✔ one provider failure does not discard successful providers or leak raw errors (1.31925ms)
+✔ SQLite history and favorites persist after close/reopen, with canonical deduplication (6.070886ms)
+✔ SQLite cache expires and survives process-style reopen (1.331528ms)
+✔ Bilibili restricts domains and video paths, strips tracker parameters (2.978174ms)
+✔ YouTube retains real channel/date metadata and rejects non-video records (4.873946ms)
+✔ Bocha accepts documented direct and envelope result formats (3.487396ms)
+✔ Tavily normalizes content and rejects malformed envelopes (2.307942ms)
+✔ PPT classification uses URL evidence, not arbitrary words in title (0.443386ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 324.928872
+✔ production standalone starts and serves real mode (362.810799ms)
+✔ home and assets load without remote font/CDN requirements (39.197282ms)
+✔ search handles Unicode, empty query and HTML escaping (86.770746ms)
+✔ search API maps genuine provider responses (74.005504ms)
+✔ rate limits preserve structured partial results and hide upstream errors (20.255276ms)
+✔ empty result is a legitimate state (10.600022ms)
+✔ API rejects invalid, oversized, non-JSON and cross-origin input (18.080471ms)
+✔ unknown routes return 404 (8.616439ms)
+✔ web and presentation adapters integrate through production API (14.321614ms)
+✔ video search produces direct Bilibili links without fabricated metadata (14.763087ms)
+✔ history/cache/favorites work through the production server (57.727608ms)
+✔ AI expansion, source-backed summary and graceful failure integrate end to end (35.028308ms)
+✔ concurrent identical searches share requests and refresh bypasses SQLite cache (26.929834ms)
+✔ history deletion respects same-origin checks and persists empty state (8.340652ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 867.065856
+
+Additional development-startup check: homepage/search/favorites/settings/health/history and all-providers-disabled fallback passed.

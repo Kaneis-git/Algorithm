@@ -1,0 +1,16 @@
+node_modules
+.next
+.git
+.github
+.env*
+*.log
+*.pem
+*.key
+*.p12
+*.tsbuildinfo
+*.db*
+*.sqlite*
+data
+coverage
+docs
+tests
